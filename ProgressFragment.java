@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
+
 import cz.msebera.android.httpclient.impl.client.BasicCookieStore;
 import cz.msebera.android.httpclient.impl.cookie.BasicClientCookie;
 
@@ -145,6 +148,7 @@ public class ProgressFragment extends Fragment {
                 }
 //
                 String totalUp="";
+
                 totalUp+="======"+MainActivity.categoryName[countItemTypeSearch]+"======\n";
                 totalUp+="Новых товаров - "+String.valueOf(count_new)+"\n";
                 totalUp+="Обновлено цен - "+String.valueOf(count_refresh)+"\n";

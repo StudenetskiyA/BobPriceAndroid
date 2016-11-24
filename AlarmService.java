@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 
 public class AlarmService extends IntentService {
     public int countItemTypeSearch;
@@ -138,7 +139,10 @@ public class AlarmService extends IntentService {
 
     void sendNotif(String text) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
+        Calendar now = Calendar.getInstance();
+        int hour=now.get(Calendar.HOUR);
+        int minute = now.get(Calendar.MINUTE);
+        text= hour+":"+minute+" "+text;
         PendingIntent callIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.bobprice)
