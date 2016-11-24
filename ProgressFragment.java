@@ -21,9 +21,9 @@ public class ProgressFragment extends Fragment {
 
     public int countItemTypeSearch=0;
     String site[]={
-        "http://www.dns-shop.ru/catalog/markdown/?order=1&groups[]=00000000-0000-0000-0000-000000000010&shops[]=0",
-        "http://www.dns-shop.ru/catalog/markdown/?order=1&groups[]=00000000-0000-0000-0000-000000000117&shops[]=0",
-        "http://www.dns-shop.ru/catalog/markdown/?order=1&groups[]=00000000-0000-0000-0000-000000000140&shops[]=0"};
+        "http://www.dns-shop.ru/catalog/markdown/?3[00000000-0000-0000-0000-000000000010]=1&offset=0",
+            "http://www.dns-shop.ru/catalog/markdown/?3[00000000-0000-0000-0000-000000000140]=1&offset=0",
+       "http://www.dns-shop.ru/catalog/markdown/?3[00000000-0000-0000-0000-000000000117]=1&offset=0"};
 
     TextView contentView;
     String contentText = null;
