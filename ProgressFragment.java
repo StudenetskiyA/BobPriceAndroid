@@ -20,13 +20,9 @@ import cz.msebera.android.httpclient.impl.cookie.BasicClientCookie;
 public class ProgressFragment extends Fragment {
 
     public int countItemTypeSearch=0;
-    String site[]={
-        "http://www.dns-shop.ru/catalog/markdown/?3[00000000-0000-0000-0000-000000000010]=1&offset=0",
-            "http://www.dns-shop.ru/catalog/markdown/?3[00000000-0000-0000-0000-000000000140]=1&offset=0",
-       "http://www.dns-shop.ru/catalog/markdown/?3[00000000-0000-0000-0000-000000000117]=1&offset=0"};
 
     TextView contentView;
-    String contentText = null;
+    //String contentText = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,27 +35,21 @@ public class ProgressFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress, container, false);
         contentView = (TextView) view.findViewById(R.id.content);
-//        if(contentText!=null)
-//            contentView.setText(contentText);
         return view;
     }
 
     @Override
-
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         new ProgressTask().execute();
-
     }
 
     class ProgressTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... path) {
-
             String content;
             try{
-                content = getContent(site[countItemTypeSearch]);
+                content = getContent(MainActivity.site[countItemTypeSearch]);
             }
             catch (IOException ex){
                content = ex.getMessage();
@@ -74,29 +64,11 @@ public class ProgressFragment extends Fragment {
 //            contentText=content;
             contentView.setText(contentView.getText()+content);
             countItemTypeSearch++;
-            if ( countItemTypeSearch<site.length){
+            if ( countItemTypeSearch<MainActivity.site.length){
                 new ProgressTask().execute();
             }
             Toast.makeText(getActivity(), "Данные загружены", Toast.LENGTH_SHORT)
                     .show();
-        }
-
-        public BasicCookieStore getCookieStore(String cookies, String domain) {
-            String[] cookieValues = cookies.split(";");
-            BasicCookieStore cs = new BasicCookieStore();
-
-            BasicClientCookie cookie;
-            for (int i = 0; i < cookieValues.length; i++) {
-                String[] split = cookieValues[i].split("=");
-                if (split.length == 2)
-                    cookie = new BasicClientCookie(split[0], split[1]);
-                else
-                    cookie = new BasicClientCookie(split[0], null);
-
-                cookie.setDomain(domain);
-                cs.addCookie(cookie);
-            }
-            return cs;
         }
 
         private String getContent(String path) throws IOException {
@@ -175,10 +147,16 @@ public class ProgressFragment extends Fragment {
                     }
                 }
 //
+                String totalUp="";
+                totalUp+="======"+MainActivity.categoryName[countItemTypeSearch]+"======\n";
+                totalUp+="Новых товаров - "+String.valueOf(count_new)+"\n";
+                totalUp+="Обновлено цен - "+String.valueOf(count_refresh)+"\n";
+                
+                total=totalUp+total+total2;
                 Log.i("BobPriceMain","new item = "+String.valueOf(count_new));
                 Log.i("BobPriceMain","refresh item = "+String.valueOf(count_refresh));
 
-                total+="-------СТАРЫЕ-------"+"\n"+total2;
+               // total+="-------СТАРЫЕ-------"+"\n"+total2;
                 db.close();
                 return(total);
             }

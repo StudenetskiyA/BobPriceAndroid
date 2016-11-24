@@ -38,15 +38,11 @@ public class AlarmService extends IntentService {
         doRefresh();
     }
 
-    String site[]={
-            "http://www.dns-shop.ru/catalog/markdown/?order=1&groups[]=00000000-0000-0000-0000-000000000010&shops[]=0",
-            "http://www.dns-shop.ru/catalog/markdown/?order=1&groups[]=00000000-0000-0000-0000-000000000117&shops[]=0",
-            "http://www.dns-shop.ru/catalog/markdown/?order=1&groups[]=00000000-0000-0000-0000-000000000140&shops[]=0"};
 
     public String doRefresh() {
         String content;
         try{
-            content = getContent(site[countItemTypeSearch]);
+            content = getContent(MainActivity.site[countItemTypeSearch]);
         }
         catch (IOException ex){
             content = ex.getMessage();
@@ -132,8 +128,8 @@ public class AlarmService extends IntentService {
             if (count_refresh!=0){sendNotif("Обновление цен!");}
             db.close();
         countItemTypeSearch++;
-        if ( countItemTypeSearch<site.length){
-            getContent(site[countItemTypeSearch]);
+        if ( countItemTypeSearch<MainActivity.site.length){
+            getContent(MainActivity.site[countItemTypeSearch]);
         }
             return (total);
     }
