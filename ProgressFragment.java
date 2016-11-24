@@ -61,14 +61,14 @@ public class ProgressFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(String content) {
-//            contentText=content;
             contentView.setText(contentView.getText()+content);
+            Toast.makeText(getActivity(), "Данные <" +MainActivity.categoryName[countItemTypeSearch]+"> загружены", Toast.LENGTH_SHORT)
+                    .show();
             countItemTypeSearch++;
             if ( countItemTypeSearch<MainActivity.site.length){
                 new ProgressTask().execute();
             }
-            Toast.makeText(getActivity(), "Данные загружены", Toast.LENGTH_SHORT)
-                    .show();
+
         }
 
         private String getContent(String path) throws IOException {
@@ -87,7 +87,6 @@ public class ProgressFragment extends Fragment {
                 String line=null;
                 while ((line=reader.readLine()) != null) {
                     buf.append(line + "\n");
-               //Log.i("BobPrice", line);
                 }
                 //Sort
                 int start=0;
@@ -125,8 +124,6 @@ public class ProgressFragment extends Fragment {
                     _price=Integer.parseInt(a);
                     tmp+=a;
                     total2+=tmp+"\n";
-                    //
-                    //total+="Обновления цен:"+"\n";
                     if (db.searchItemIsExist(_code))
                     {
                         int price_in_base=db.searchItemByCode(_code).getPrice();
@@ -151,7 +148,7 @@ public class ProgressFragment extends Fragment {
                 totalUp+="======"+MainActivity.categoryName[countItemTypeSearch]+"======\n";
                 totalUp+="Новых товаров - "+String.valueOf(count_new)+"\n";
                 totalUp+="Обновлено цен - "+String.valueOf(count_refresh)+"\n";
-                
+
                 total=totalUp+total+total2;
                 Log.i("BobPriceMain","new item = "+String.valueOf(count_new));
                 Log.i("BobPriceMain","refresh item = "+String.valueOf(count_refresh));
