@@ -7,6 +7,7 @@ import android.content.Intent;
 /**
  * Created by samsung on 27.09.2016.
  */
+
 public class AlarmReceiver  extends BroadcastReceiver {
     public static final int REQUEST_CODE = 12345;
     public static final String ACTION = "com.codepath.example.servicesdemo.alarm";
@@ -15,7 +16,6 @@ public class AlarmReceiver  extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent i = new Intent(context, AlarmService.class);
-        i.putExtra("foo", "bar");
         context.startService(i);
         }
     }

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 
 public class AlarmService extends IntentService {
     public int countItemTypeSearch;
@@ -38,15 +39,11 @@ public class AlarmService extends IntentService {
         doRefresh();
     }
 
-    String site[]={
-            "http://www.dns-shop.ru/catalog/markdown/?order=1&groups[]=00000000-0000-0000-0000-000000000010&shops[]=0",
-            "http://www.dns-shop.ru/catalog/markdown/?order=1&groups[]=00000000-0000-0000-0000-000000000117&shops[]=0",
-            "http://www.dns-shop.ru/catalog/markdown/?order=1&groups[]=00000000-0000-0000-0000-000000000140&shops[]=0"};
 
     public String doRefresh() {
         String content;
         try{
-            content = getContent(site[countItemTypeSearch]);
+            content = getContent(MainActivity.site[countItemTypeSearch]);
         }
         catch (IOException ex){
             content = ex.getMessage();
@@ -132,8 +129,8 @@ public class AlarmService extends IntentService {
             if (count_refresh!=0){sendNotif("Обновление цен!");}
             db.close();
         countItemTypeSearch++;
-        if ( countItemTypeSearch<site.length){
-            getContent(site[countItemTypeSearch]);
+        if ( countItemTypeSearch<MainActivity.site.length){
+            getContent(MainActivity.site[countItemTypeSearch]);
         }
             return (total);
     }
@@ -142,7 +139,10 @@ public class AlarmService extends IntentService {
 
     void sendNotif(String text) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
+        Calendar now = Calendar.getInstance();
+        int hour=now.get(Calendar.HOUR);
+        int minute = now.get(Calendar.MINUTE);
+        text= hour+":"+minute+" "+text;
         PendingIntent callIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(getApplicationContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.bobprice)
